@@ -9,7 +9,7 @@ dependencies = [
 ]
 
 [project.scripts]
-my-command = "tool_example:main"
+tool-example = "tool_example:main"
 
 # Helpers for uv
 [build-system]
