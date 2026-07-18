@@ -1,0 +1,17 @@
+[project]
+name = "tool-example"
+version = "0.1.0"
+description = "Almost nothing"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31.0",
+]
+
+[project.scripts]
+my-command = "tool_example:main"
+
+# Helpers for uv
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,0 +1,1 @@
+print("tool-example output")
