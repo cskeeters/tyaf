@@ -3,7 +3,7 @@ import io
 from pypdf import PdfReader, PdfWriter
 from pypdf.generic import NameObject, BooleanObject
 from reportlab.pdfgen import canvas
-from reportlab.lib.colors import transparent, black, white
+from reportlab.lib.colors import transparent, black, gray, white
 
 from .util import pt_to_float
 
@@ -13,7 +13,7 @@ def add_fields(input_file: str, output_file: str, fields: list[dict]) -> None:
 
     for value in fields:
         name = value["fieldName"]
-        print("Adding "+name+" as "+value["fieldType"])
+        field_type = value["fieldType"]
         page_num = int(value["pos"]["page"]) - 1
         x = pt_to_float(value["pos"]["x"])
         # Convert top‑left Y to bottom‑left PDF coordinate
@@ -39,19 +39,50 @@ def add_fields(input_file: str, output_file: str, fields: list[dict]) -> None:
         # Access the form property directly
         form = can.acroForm #
 
-        form.textfield(
-            name=name,
-            # tooltip="Enter text here",
-            x=x,
-            y=y,
-            width=width,
-            height=height,
-            fontSize=11,
-            borderWidth=1,
-            borderColor=black,
-            fillColor=white
-        )
-
+        if field_type == "text":
+            print("Adding "+name+" as "+field_type)
+            form.textfield(
+                name=name,
+                # tooltip="Enter text here",
+                x=x,
+                y=y,
+                width=width,
+                height=height,
+                fontSize=11,
+                borderWidth=1,
+                borderColor=gray,
+                fillColor=white
+            )
+        elif field_type == "textarea":
+            print("Adding "+name+" as "+field_type)
+            form.textfield(
+                    name=name,
+                    x=x,
+                    y=y,
+                    width=width,
+                    height=height,
+                    borderWidth=.5,
+                    borderColor=gray,
+                    fillColor=white
+                    )
+        elif field_type == "checkbox":
+            print("Adding "+name+" as "+field_type)
+            form.checkbox(
+                    name=name,
+                    tooltip='Field CB0',
+                    checked=True,
+                    x=x,
+                    y=y,
+                    # width=width,
+                    # height=height,
+                    buttonStyle='diamond',
+                    borderStyle='bevelled',
+                    borderWidth=.5,
+                    borderColor=gray,
+                    # fillColor=green,
+                    # textColor=blue,
+                    # forceBorder=True
+                    )
 
         can.showPage()
         can.save()
