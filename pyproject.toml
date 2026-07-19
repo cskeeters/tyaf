@@ -1,17 +1,24 @@
 [project]
-name = "tool-example"
+name = "tyaf"
 version = "0.1.0"
-description = "Almost nothing"
+description = "Adds AcroForm fields to existing PDF files using pyhanko and pypdf"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "requests>=2.31.0",
+    "pyhanko==0.35.2",
+    "pypdf==6.14.2",
+    "reportlab>=5.0.0",
+    "typst>=0.15.0",
 ]
 
 [project.scripts]
-tool-example = "tool_example:main"
+tyaf = "tyaf:main"
 
 # Helpers for uv
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"

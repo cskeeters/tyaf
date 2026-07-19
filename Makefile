@@ -1,5 +1,7 @@
+package := $(shell yq '.project.name' pyproject.toml)
+
 install:
-	uv cache clean tool-example
+	uv cache clean $(package)
 	uv tool install . --force
 
 run:
