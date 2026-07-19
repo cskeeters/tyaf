@@ -38,6 +38,6 @@ def add_signatures(input_file: str, output_file: str, signatures: list[dict]) ->
 
         with open(output_file, "wb") as outf:
             iwriter.write(outf)
-        print("Wrote to "+output_file)
+        # print("Wrote to "+output_file)
 
     # print(f"Successfully signed '{input_file}' and saved to '{output_file}'.")

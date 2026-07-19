@@ -70,4 +70,4 @@ def add_fields(input_file: str, output_file: str, fields: list[dict]) -> None:
     with open(output_file, "wb") as f:
         writer.write(f)
 
-    print("Wrote to "+output_file)
+    # print("Wrote to "+output_file)

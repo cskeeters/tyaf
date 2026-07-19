@@ -32,11 +32,6 @@ def split_fields_signatures(metadata_json) -> tuple[list[dict], list[dict]]:
         elif value.get("fieldType") == "signature":
             signatures.append(value)
 
-    print("fields")
-    print(fields)
-    print()
-    print("signatures")
-    print(signatures)
     return fields, signatures
 
 
