@@ -11,6 +11,12 @@ def add_fields(input_file: str, output_file: str, fields: list[dict]) -> None:
     reader = PdfReader(input_file)
     writer = PdfWriter()
 
+    tmp = reader.get_fields()
+    if tmp != None:
+        for name, field in tmp.items():
+            print("** field name: "+name)
+
+
     for value in fields:
         name = value["fieldName"]
         field_type = value["fieldType"]
