@@ -88,7 +88,7 @@ def add_fields(input_file: str, output_file: str, fields: list[dict]) -> None:
         can.save()
         packet.seek(0)
 
-        overlay_reader = PdfReader(packet)
+        overlay_reader = PdfReader(packet) # PyPDF PdfReader from bytes written by reportlab
         overlay_page = overlay_reader.pages[0]
 
         target_page.merge_page(overlay_page)
