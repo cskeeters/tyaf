@@ -166,7 +166,7 @@ def add_fields(input_file: str, output_file: str, fields: list[dict]) -> None:
 
         new_field = None
 
-        print(name+" is a "+field_type)
+        # print(name+" is a "+field_type)
 
         if field_type == "text":
             print("Adding "+name+" as "+field_type)
