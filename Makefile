@@ -5,4 +5,4 @@ install:
 	uv tool install . --force
 
 run:
-	uv run tool-example
+	uv run $(package)
