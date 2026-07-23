@@ -1,0 +1,16 @@
+stamp-styles:
+    plain:
+        type: text
+        # Might want this an another folder.  Can be an absolute path.
+        background: plain.pdf
+        background-opacity: 1
+        stamp-text: " "
+        border-width: 0
+pkcs11-setups:
+    CAC:
+        module-path: /usr/local/lib/keychain-pkcs11.dylib
+        # key-id: 2 # Don't need
+
+        # Digital signature certs are typically 0x02
+        # pkcs11-tool --list-objects --type cert
+        cert-id: 2
