@@ -2,6 +2,8 @@
 
 # Example
 
+![PDF Rendering of signed employee form](example/employee_signed.webp "PDF Rendering of signed employee form")
+
 ```typ
 #import "@local/typst-fillable:1.0.0": *
 
