@@ -147,6 +147,17 @@ brew install opensc
 pip3 install 'pyHanko[pkcs11]'
 ```
 
+## Configuration
+
+Example neovim binding:
+
+`~/.config/nvim/ftplugin/typst.lua`:
+```lua
+vim.keymap.set('n', '<C-k>t',
+    [[<Cmd>update<cr>:!tyaf '%' && open -a "Adobe Acrobat.app" '%:r.pdf'<cr>]],
+    { buffer=true, desc='Compile with tyaf' })
+```
+
 # Related Tools
 
 * [afj](https://github.com/cskeeters/afj)
