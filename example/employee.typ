@@ -1,5 +1,7 @@
 #import "@local/typst-fillable:1.0.0": *
 
+#set page(paper: "us-letter", margin: .5in)
+
 First: #text_field("first", width: 150pt, height: 1em)
 
 Last: #text_field("last", width: 150pt, height: 1em)
@@ -12,7 +14,7 @@ Employment Type:
 #radio_field("part-time", "employment_type", selected: false) Part-Time
 
 Hobbies:
-#textarea_field("hobbies",  height: 3in)
+#textarea_field("hobbies",  height: 1.5in)
 
 #v(2em)
 

@@ -19,7 +19,7 @@ Employment Type:
 #radio_field("part-time", "employment_type", selected: false) Part-Time
 
 Hobbies:
-#textarea_field("hobbies",  height: 3in)
+#textarea_field("hobbies",  height: 1.5in)
 
 #v(2em)
 
