@@ -56,15 +56,28 @@ def main() -> None:
             if dir != "":
                 os.chdir(dir)
 
-            # print("Compiling, writing to "+pdf1.name)
-            typst.compile(input=os.path.basename(input_typ), output=pdf1.name)
-            shutil.copy(pdf1.name, output_pdf)
+            pdf_out = pdf1
+            pdf_in = pdf2
 
+            # print("Compiling, writing to "+pdf1.name)
+            typst.compile(input=os.path.basename(input_typ), output=pdf_out.name)
+            shutil.copy(pdf_out.name, output_pdf)
 
             # print("Adding Signatures, writing to "+pdf2.name)
             fields, signatures = split_fields_signatures(metadata_json)
-            signature.add_signatures(pdf1.name, pdf2.name, signatures)
-            shutil.copy(pdf2.name, output_pdf)
-            field.add_fields(pdf2.name, pdf1.name, fields)
-            shutil.copy(pdf1.name, output_pdf)
 
+
+            if len(signatures) > 0:
+                pdf_in, pdf_out = pdf_out, pdf_in
+                signature.add_signatures(pdf_in.name, pdf_out.name, signatures)
+
+                # copy to output_pdf just in case the next step fails
+                shutil.copy(pdf_out.name, output_pdf)
+
+
+            if len(fields) > 0:
+                pdf_in, pdf_out = pdf_out, pdf_in
+                field.add_fields(pdf_in.name, pdf_out.name, fields)
+
+                # copy to output_pdf just in case the next step fails
+                shutil.copy(pdf_out.name, output_pdf)
