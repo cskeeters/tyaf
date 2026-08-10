@@ -158,6 +158,14 @@ vim.keymap.set('n', '<C-k>t',
     { buffer=true, desc='Compile with tyaf' })
 ```
 
+# Troubleshooting
+
+This program parses metadata output by typst.  You troubleshoot issues by examining the metadata output by your document:
+
+```sh
+typst eval 'query(metadata)' --pretty --in main.typ
+```
+
 # Related Tools
 
 * [afj](https://github.com/cskeeters/afj)
