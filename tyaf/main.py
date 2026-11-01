@@ -48,6 +48,12 @@ def main() -> None:
     )
     parser.add_argument("input_typ", help="path to the .typ input file")
     parser.add_argument(
+        "output_pdf",
+        nargs="?",
+        help="full path to the output PDF file; if omitted, it is "
+        "derived from the input filename",
+    )
+    parser.add_argument(
         "-i",
         "--input",
         dest="sys_inputs",
@@ -57,7 +63,8 @@ def main() -> None:
         metavar="KEY=VALUE",
         help="system input for typst, e.g. --input 'key=value' (repeatable)",
     )
-    args = parser.parse_args()
+    # Intermixed parsing so positionals and flags can appear in any order.
+    args = parser.parse_intermixed_args()
 
     input_typ = args.input_typ
     sys_inputs: dict[str, str] = dict(args.sys_inputs)
@@ -65,8 +72,13 @@ def main() -> None:
 
     metadata_json = json.loads(typst.eval(input_typ, "query(metadata)"))
 
-    # Extract just the name without the extension
-    output_pdf = typ_path.stem+".pdf"
+    if args.output_pdf is not None:
+        # Resolve to an absolute path so it survives the os.chdir below.
+        output_pdf = str(Path(args.output_pdf).resolve())
+        Path(output_pdf).parent.mkdir(parents=True, exist_ok=True)
+    else:
+        # Extract just the name without the extension
+        output_pdf = typ_path.stem+".pdf"
 
     with tempfile.NamedTemporaryFile(delete=True) as pdf1:
         with tempfile.NamedTemporaryFile(delete=True) as pdf2:
