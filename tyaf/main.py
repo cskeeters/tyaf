@@ -1,4 +1,5 @@
 # from annotationlib import type_repr
+import argparse
 import sys
 import os
 import json
@@ -10,8 +11,12 @@ from . import field
 import typst
 from pathlib import Path
 
-def usage() -> None:
-    print("Usage:", sys.argv[0], " <in.typ>")
+
+def parse_key_value(s: str) -> tuple[str, str]:
+    if "=" not in s:
+        raise argparse.ArgumentTypeError(f"expected 'key=value', got '{s}'")
+    key, value = s.split("=", 1)
+    return key, value
 
 
 def split_fields_signatures(metadata_json) -> tuple[list[dict], list[dict]]:
@@ -37,11 +42,25 @@ def split_fields_signatures(metadata_json) -> tuple[list[dict], list[dict]]:
 
 
 def main() -> None:
-    if len(sys.argv) != 2:
-        usage()
-        sys.exit(1)
+    parser = argparse.ArgumentParser(
+        prog=sys.argv[0],
+        description="Compile a typst document into a fillable/signable PDF.",
+    )
+    parser.add_argument("input_typ", help="path to the .typ input file")
+    parser.add_argument(
+        "-i",
+        "--input",
+        dest="sys_inputs",
+        action="append",
+        type=parse_key_value,
+        default=[],
+        metavar="KEY=VALUE",
+        help="system input for typst, e.g. --input 'key=value' (repeatable)",
+    )
+    args = parser.parse_args()
 
-    input_typ = sys.argv[1]
+    input_typ = args.input_typ
+    sys_inputs: dict[str, str] = dict(args.sys_inputs)
     typ_path = Path(input_typ)
 
     metadata_json = json.loads(typst.eval(input_typ, "query(metadata)"))
@@ -60,7 +79,11 @@ def main() -> None:
             pdf_in = pdf2
 
             # print("Compiling, writing to "+pdf1.name)
-            typst.compile(input=os.path.basename(input_typ), output=pdf_out.name)
+            typst.compile(
+                input=os.path.basename(input_typ),
+                output=pdf_out.name,
+                sys_inputs=sys_inputs,
+            )
             shutil.copy(pdf_out.name, output_pdf)
 
             # print("Adding Signatures, writing to "+pdf2.name)
